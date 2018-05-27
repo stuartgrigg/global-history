@@ -13,7 +13,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4,
   },
   modal: {
-      justifyContent: 'center'
+    justifyContent: 'center'
   }
 });
 
@@ -23,20 +23,20 @@ class FiltersModal extends React.Component {
     const { classes } = this.props;
 
     return (
-        <Modal
-          open={this.props.open}
-          onClose={() => this.props.onClose()}
-          className={classes.modal}
-        >
-          <div className={classes.paper}>
-            <Typography variant="title">
-              Text in a modal
-            </Typography>
-            <Typography variant="subheading">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </div>
-        </Modal>
+      <Modal
+        open={this.props.open}
+        onClose={() => this.props.onClose()}
+        className={classes.modal}
+      >
+        <div className={classes.paper}>
+          <Typography variant="title">
+            Text in a modal
+          </Typography>
+          <Typography variant="subheading">
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </div>
+      </Modal>
     );
   }
 }

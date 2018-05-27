@@ -18,8 +18,8 @@ class HistoryMap extends Component {
     );
     const modal = (
       <FiltersModal
-          open={this.props.modalOpen}
-          onClose={() => this.props.handleModalClose()}
+        open={this.props.modalOpen}
+        onClose={() => this.props.handleModalClose()}
       />
     );
 

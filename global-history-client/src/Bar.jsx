@@ -10,66 +10,66 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { PropTypes } from 'prop-types';
 
 class Bar extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            menuOpen: false,
-            showFiltersButton: true,
-        };
-    }
+    this.state = {
+      menuOpen: false,
+      showFiltersButton: true,
+    };
+  }
 
   render() {
     const filtersButton = (this.state.showFiltersButton) ? (
-        <Button
-            color="inherit"
-            className="App-bar-button"
-            onClick={() => this.props.handleFiltersButtonPress()}>
-            Set Filters
-        </Button>
+      <Button
+        color="inherit"
+        className="App-bar-button"
+        onClick={() => this.props.handleFiltersButtonPress()}>
+          Set Filters
+      </Button>
     ) : null;
     return (
-        <AppBar
-            className="App-bar"
-            position="static"
-        >
-            <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="Menu"
-                    className="App-bar-menu-button"
-                    onClick={() => this.handleToggleMenu()}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="title" color="inherit" className="App-bar-title">
-                    Global History
-                </Typography>
-                {filtersButton}
-            </Toolbar>
+      <AppBar
+        className="App-bar"
+        position="static"
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="Menu"
+            className="App-bar-menu-button"
+            onClick={() => this.handleToggleMenu()}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="title" color="inherit" className="App-bar-title">
+            Global History
+          </Typography>
+          {filtersButton}
+        </Toolbar>
 
-            <Drawer
-                open={this.state.menuOpen}
-                onClose={() => this.setState({menuOpen:false})}
-            >
-                <MenuItem onClick={() => this.handleToggleMenu()}>
-                    World History Map
-                </MenuItem>
-                <MenuItem onClick={() => this.handleToggleMenu()}>
-                    About
-                </MenuItem>
-            </Drawer>
-        </AppBar>
+        <Drawer
+          open={this.state.menuOpen}
+          onClose={() => this.setState({menuOpen:false})}
+        >
+          <MenuItem onClick={() => this.handleToggleMenu()}>
+            World History Map
+          </MenuItem>
+          <MenuItem onClick={() => this.handleToggleMenu()}>
+            About
+          </MenuItem>
+        </Drawer>
+      </AppBar>
     );
   }
 
   handleToggleMenu() {
-      this.setState({menuOpen: !this.state.menuOpen});
+    this.setState({menuOpen: !this.state.menuOpen});
   }
 }
 
 Bar.propTypes = {
-    handleFiltersButtonPress: PropTypes.func.isRequired
+  handleFiltersButtonPress: PropTypes.func.isRequired
 };
 
 export default Bar;

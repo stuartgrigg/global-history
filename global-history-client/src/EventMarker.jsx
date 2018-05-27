@@ -7,38 +7,38 @@ class EventMarker extends Component {
   render() {
     const { event } = this.props;
     if (
-        (event.latitude == null && event.longitude == null)||
-        (event.links == null || event.links.length === 0) ||
-        (event.start_time == null || event.end_time == null)
+      (event.latitude == null && event.longitude == null)||
+      (event.links == null || event.links.length === 0) ||
+      (event.start_time == null || event.end_time == null)
     ) {
-        return (null);
+      return (null);
     }
     var displayDates = [];
     if (event.start_time === event.end_time) {
-        displayDates.push(
-            <div key="date">Date: {this.unpackDate(event.start_time)}</div>
-        );
+      displayDates.push(
+        <div key="date">Date: {this.unpackDate(event.start_time)}</div>
+      );
     } else {
-        displayDates.push(
-            <div key="start">
-                Start Date: {this.unpackDate(event.start_time)}
-            </div>
-        );
-        displayDates.push(
-            <div key="end">End Date: {this.unpackDate(event.end_time)}</div>
-        );
+      displayDates.push(
+        <div key="start">
+          Start Date: {this.unpackDate(event.start_time)}
+        </div>
+      );
+      displayDates.push(
+        <div key="end">End Date: {this.unpackDate(event.end_time)}</div>
+      );
     }
     return (
-    <Marker position={[event.latitude, event.longitude]}>
+      <Marker position={[event.latitude, event.longitude]}>
         <Popup>
-        <span>
+          <span>
             <a href={event.links[0]} target="_blank">
-                {event.title}
+              {event.title}
             </a>
             {displayDates}
-        </span>
+          </span>
         </Popup>
-    </Marker>
+      </Marker>
     );
   };
 
@@ -52,7 +52,7 @@ class EventMarker extends Component {
 }
 
 EventMarker.propTypes = {
-    event: PropTypes.object.isRequired
+  event: PropTypes.object.isRequired
 };
 
 export default EventMarker;

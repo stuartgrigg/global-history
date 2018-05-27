@@ -1,0 +1,63 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.App-content {
+  height: 90%
+}
+
+.App-bar {
+  text-align: left;
+}
+
+.App-bar-title {
+  font-size: 1.8em !important;
+  flex: 1;
+}
+
+.App-bar-menu-button {
+  padding-right: 20px !important;
+}
+
+.App-bar-button {
+  font-size: 1.1em !important;
+}
+
+.Full-height {
+  height: 100%;
+}
+
+@media only screen and (max-width: 500px) {
+
+  h1 {
+    font-size: 3em;
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+  .App-bar-title {
+    font-size: 1em !important;
+  }
+
+  .App-bar-button {
+    font-size: 0.75em !important;
+  }
+
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

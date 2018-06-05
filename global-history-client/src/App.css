@@ -1,25 +1,5 @@
-.App {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-}
-
-.App-content {
-  height: 90%
-}
-
-.App-bar {
-  text-align: left;
-}
-
-.App-bar-title {
-  flex: 1;
-}
-
 .leaflet-container {
   height: 100%;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
 }

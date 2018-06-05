@@ -8,6 +8,16 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { PropTypes } from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = () => ({
+  appBar: {
+    textAlign: 'left',
+  },
+  appBarTitle: {
+    flex: 1,
+  }
+});
 
 class Bar extends Component {
   constructor(props) {
@@ -20,29 +30,28 @@ class Bar extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const filtersButton = (this.state.showFiltersButton) ? (
       <Button
         color="inherit"
-        className="App-bar-button"
         onClick={() => this.props.handleFiltersButtonPress()}>
           Set Filters
       </Button>
     ) : null;
     return (
       <AppBar
-        className="App-bar"
+        className={classes.appBar}
         position="static"
       >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="Menu"
-            className="App-bar-menu-button"
             onClick={() => this.handleToggleMenu()}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="title" color="inherit" className="App-bar-title">
+          <Typography variant="title" color="inherit" className={classes.appBarTitle}>
             Global History
           </Typography>
           {filtersButton}
@@ -69,7 +78,10 @@ class Bar extends Component {
 }
 
 Bar.propTypes = {
+  classes: PropTypes.object.isRequired,
   handleFiltersButtonPress: PropTypes.func.isRequired
 };
 
-export default Bar;
+const BarWrapped = withStyles(styles)(Bar);
+
+export default BarWrapped;

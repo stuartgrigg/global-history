@@ -3,6 +3,21 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import './App.css';
 import Bar from './Bar.jsx';
 import HistoryMap from './HistoryMap';
+import { PropTypes } from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = () => ({
+  app: {
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100%'
+  },
+  appContent: {
+    height: '90%'
+  }
+});
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +29,7 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const theme = createMuiTheme({
       palette: {
         type: 'light',
@@ -23,13 +39,13 @@ class App extends Component {
       <MuiThemeProvider
         theme={theme}
       >
-        <div className="App">
+        <div className={classes.app}>
           <Bar
             handleFiltersButtonPress={
               () => this.handleOpenFiltersModal()
             }
           />
-          <div className="App-content">
+          <div className={classes.appContent}>
             <HistoryMap
               modalOpen={this.state.filtersModalOpen}
               handleModalClose={() => this.handleCloseFiltersModal()}
@@ -49,4 +65,10 @@ class App extends Component {
   };
 };
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+const AppWrapped = withStyles(styles)(App);
+
+export default AppWrapped;

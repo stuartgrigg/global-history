@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { PropTypes } from 'prop-types';
 import FiltersModal from './FiltersModal';
 import { withStyles } from '@material-ui/core/styles';
+import { FormDate } from './DateUtils';
 
 const styles = () => ({
   mapContainer: {
@@ -38,13 +39,32 @@ class HistoryMap extends Component {
     const { classes } = this.props;
     const { filters } = this.state;
 
-    const markers = eventData.map(
+    const fromTime = FormDate(
+      filters.fromDate.year,
+      filters.fromDate.month,
+      filters.fromDate.day
+    );
+    const toTime = FormDate(
+      filters.toDate.year,
+      filters.toDate.month,
+      filters.toDate.day
+    );
+
+    const markers = eventData.filter(
+      (event) => {
+        return (
+          event.end_time >= fromTime &&
+          event.start_time <= toTime
+        );
+      }
+    ).map(
       (event, i) => {
         return (
           <EventMarker event={event} key={i} />
         );
       }
     );
+
     const modal = (
       <FiltersModal
         open={this.props.modalOpen}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import PropTypes from 'prop-types';
+import { UnpackDate } from './DateUtils';
 
 class EventMarker extends Component {
 
@@ -16,16 +17,16 @@ class EventMarker extends Component {
     var displayDates = [];
     if (event.start_time === event.end_time) {
       displayDates.push(
-        <div key="date">Date: {this.unpackDate(event.start_time)}</div>
+        <div key="date">Date: {UnpackDate(event.start_time)}</div>
       );
     } else {
       displayDates.push(
         <div key="start">
-          Start Date: {this.unpackDate(event.start_time)}
+          Start Date: {UnpackDate(event.start_time)}
         </div>
       );
       displayDates.push(
-        <div key="end">End Date: {this.unpackDate(event.end_time)}</div>
+        <div key="end">End Date: {UnpackDate(event.end_time)}</div>
       );
     }
     return (
@@ -40,14 +41,6 @@ class EventMarker extends Component {
         </Popup>
       </Marker>
     );
-  };
-
-  unpackDate(dataDate) {
-    const y = Math.floor(dataDate/10000);
-    const noYear = dataDate - y*10000;
-    const m = Math.floor(noYear/100);
-    const d = noYear%100;
-    return `${y}-${m}-${d}`;
   };
 }
 

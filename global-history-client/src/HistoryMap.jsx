@@ -15,8 +15,28 @@ const styles = () => ({
 });
 
 class HistoryMap extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      filters: {
+        fromDate: {
+          year: -4000,
+          month: 1,
+          day: 1,
+        },
+        toDate:{
+          year: 2030,
+          month: 1,
+          day: 1,
+        }
+      }
+    };
+  };
+
   render() {
     const { classes } = this.props;
+    const { filters } = this.state;
 
     const markers = eventData.map(
       (event, i) => {
@@ -29,6 +49,8 @@ class HistoryMap extends Component {
       <FiltersModal
         open={this.props.modalOpen}
         onClose={() => this.props.handleModalClose()}
+        onSetFilters={(filters) => this.handleFiltersSaved(filters)}
+        actualFilters={filters}
       />
     );
 
@@ -44,6 +66,10 @@ class HistoryMap extends Component {
         {modal}
       </div>
     );
+  }
+
+  handleFiltersSaved(newFilters) {
+    this.setState({filters: newFilters});
   }
 }
 

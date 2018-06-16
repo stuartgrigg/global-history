@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
+import { FormDate } from './DateUtils';
 
 
 const styles = theme => ({
@@ -16,20 +17,32 @@ const styles = theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
     margin: "20px",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: 'auto'
   },
   modal: {
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: 'auto'
   },
   modalHeader: {
     display: 'flex',
-    flexDirection: 'horizontal',
+    flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    marginBottom: '20px'
+    marginBottom: '20px',
+    alignItems: 'flex-end'
+  },
+  modalFooter: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    marginTop: '20px',
+    width: '100%'
   },
   dateInputRow: {
     display: 'flex',
-    flexDirection: 'horizontal',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: '15px'
   },
@@ -43,42 +56,30 @@ class FiltersModal extends React.Component {
     super(props);
 
     this.state = {
-      filters: {
-        localFromDate: {
-          year: -4000,
-          month: 1,
-          day: 1,
-        },
-        localToDate:{
-          year: 2030,
-          month: 1,
-          day: 1,
-        }
-      }
+      filters: this.props.actualFilters,
     };
   };
 
   render() {
     const { classes } = this.props;
-    const { filters } = this.state;
 
     const filtersForm = (
       <form autoComplete="off">
         <Typography variant="subheading">
-            Show events from:
+          Show events from:
         </Typography>
-        {this.getDateInputRow("localFromDate")}
+        {this.getDateInputRow("fromDate")}
         <Typography variant="subheading">
-            Show events to:
+          Show events to:
         </Typography>
-        {this.getDateInputRow("localToDate")}
+        {this.getDateInputRow("toDate")}
       </form>
     );
 
     return (
       <Modal
         open={this.props.open}
-        onClose={() => this.props.onClose()}
+        onClose={() => this.close()}
         className={classes.modal}
       >
         <div className={classes.paper}>
@@ -87,24 +88,47 @@ class FiltersModal extends React.Component {
               Set the filters for the World Map
             </Typography>
             <IconButton
-              onClick={() => this.props.onClose()}
+              onClick={() => this.close()}
             >
               <CloseIcon />
             </IconButton>
           </div>
           {filtersForm}
+          <div className={classes.modalFooter}>
+            <Button
+              variant="raised"
+              color="primary"
+              onClick={() => {
+                if (this.filtersValid) {
+                  this.close();
+                }
+              }}
+              disabled={!this.filtersValid()}>
+              Update Filters
+            </Button>
+          </div>
         </div>
       </Modal>
     );
   }
 
+  close(updateFilters) {
+    const { filters } = this.state;
+    if (updateFilters) {
+      this.onSetFilters(filters);
+    } else {
+      this.resetFilters();
+    }
+    this.props.onClose();
+  }
+
   getDateInputRow(stateDateName) {
     const { classes } = this.props;
-    const {filters} = this.state;
+    const { filters } = this.state;
     const fields = [
-      {label: "Year", key: "year"},
-      {label: "Month", key: "month"},
-      {label: "Day", key: "day"}
+      { label: "Year", key: "year" },
+      { label: "Month", key: "month" },
+      { label: "Day", key: "day" }
     ];
     const inputs = fields.map(
       field => {
@@ -113,7 +137,7 @@ class FiltersModal extends React.Component {
             key={stateDateName + field.key}
             id={stateDateName + field.key}
             label={field.label}
-            value={filters[stateDateName][field.key]}
+            value={String(filters[stateDateName][field.key])}
             onChange={this.handleChangeDate(stateDateName, field.key)}
             type="number"
             InputLabelProps={{
@@ -132,23 +156,62 @@ class FiltersModal extends React.Component {
     );
   };
 
-  handleChangeDate(date, field){
+  handleChangeDate(date, field) {
     return (
       event => {
         let newFilters = this.state.filters;
-        newFilters[date][field] = event.target.value;
+        newFilters[date][field] = (
+          !isNaN(event.target.value) ?
+            parseInt(
+              event.target.value,
+              10
+            ) : ''
+        );
         this.setState({
           filters: newFilters
         });
       }
     );
   }
+
+  filtersValid() {
+    const { filters } = this.state;
+    return (
+      _dateValid(filters.fromDate) &&
+      _dateValid(filters.toDate) &&
+      _dateBefore(filters.fromDate, filters.toDate)
+    );
+  }
+
+  resetFilters() {
+    const { actualFilters } = this.props;
+    this.setState({ filters: actualFilters });
+  }
+};
+
+function _dateValid(date) {
+  return (
+    Number.isInteger(date.year) &&
+    Number.isInteger(date.month) &&
+    Number.isInteger(date.day) &&
+    date.month >= 1 && date.month <= 12 &&
+    date.day >= 1 && date.day <= 31
+  );
+};
+
+function _dateBefore(beforeDate, afterDate) {
+  return (
+    FormDate(beforeDate.year, beforeDate.month, beforeDate.day) <=
+    FormDate(afterDate.year, afterDate.month, afterDate.day)
+  );
 }
 
 FiltersModal.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  onClose:  PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSetFilters: PropTypes.func.isRequired,
+  actualFilters: PropTypes.object.isRequired,
 };
 
 const FiltersModalWrapped = withStyles(styles)(FiltersModal);

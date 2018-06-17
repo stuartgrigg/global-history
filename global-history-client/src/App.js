@@ -37,14 +37,14 @@ class App extends Component {
       filtersModalOpen: false,
       filters: {
         fromDate: {
-          year: -4000,
-          month: 1,
+          year: 1939,
+          month: 9,
           day: 1,
         },
         toDate:{
-          year: 2030,
-          month: 1,
-          day: 1,
+          year: 1945,
+          month: 9,
+          day: 2,
         }
       }
     };

@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 
 const styles = () => ({
   appBar: {
@@ -25,13 +26,12 @@ class Bar extends Component {
 
     this.state = {
       menuOpen: false,
-      showFiltersButton: true,
     };
   }
 
   render() {
-    const { classes } = this.props;
-    const filtersButton = (this.state.showFiltersButton) ? (
+    const { classes, showFiltersButton, history } = this.props;
+    const filtersButton = (showFiltersButton) ? (
       <Button
         color="inherit"
         onClick={() => this.props.handleFiltersButtonPress()}>
@@ -61,10 +61,16 @@ class Bar extends Component {
           open={this.state.menuOpen}
           onClose={() => this.setState({menuOpen:false})}
         >
-          <MenuItem onClick={() => this.handleToggleMenu()}>
+          <MenuItem onClick={() => {
+            history.push('/');
+            this.handleToggleMenu();
+          }}>
             World History Map
           </MenuItem>
-          <MenuItem onClick={() => this.handleToggleMenu()}>
+          <MenuItem onClick={() => {
+            history.push('/about');
+            this.handleToggleMenu();
+          }}>
             About
           </MenuItem>
         </Drawer>
@@ -79,9 +85,11 @@ class Bar extends Component {
 
 Bar.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleFiltersButtonPress: PropTypes.func.isRequired
+  handleFiltersButtonPress: PropTypes.func.isRequired,
+  showFiltersButton: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired
 };
 
-const BarWrapped = withStyles(styles)(Bar);
+const BarWrapped = withRouter(withStyles(styles)(Bar));
 
 export default BarWrapped;
